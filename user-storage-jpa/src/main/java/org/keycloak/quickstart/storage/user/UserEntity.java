@@ -1,87 +1,113 @@
-/*
- * Copyright 2016 Red Hat, Inc. and/or its affiliates
- * and other contributors as indicated by the @author tags.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-package org.keycloak.quickstart.storage.user;
 
+package main.java.org.keycloak.quickstart.storage.user;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 import jakarta.persistence.NamedQueries;
 import jakarta.persistence.NamedQuery;
 
-/**
- * @author <a href="mailto:bill@burkecentral.com">Bill Burke</a>
- * @version $Revision: 1 $
- */
-@NamedQueries({
-        @NamedQuery(name="getUserByUsername", query="select u from UserEntity u where u.username = :username"),
-        @NamedQuery(name="getUserByEmail", query="select u from UserEntity u where u.email = :email"),
-        @NamedQuery(name="getUserCount", query="select count(u) from UserEntity u"),
-        @NamedQuery(name="getAllUsers", query="select u from UserEntity u"),
-        @NamedQuery(name="searchForUser", query="select u from UserEntity u where " +
-                "( lower(u.username) like :search or u.email like :search ) order by u.username"),
-})
+
 @Entity
+@Table(name = "users", schema = "public")
+@NamedQueries({
+    @NamedQuery(name = "getUserByCi", query = "SELECT u FROM UserEntity u WHERE u.ci = :ci"),
+    @NamedQuery(name = "getUserById", query = "SELECT u FROM UserEntity u WHERE u.id = :id")
+})
 public class UserEntity {
+
     @Id
-    private String id;
+    private UUID id;
 
+    private String ci;
+    private String first_name;
+    private String second_name;
+    private String lastname;
+    private String mother_lastname;
+    private Date birthdate;
+    private String cellphone;
+    private Boolean is_active;
 
-    private String username;
-    private String email;
-    private String password;
-    private String phone;
+    @Column(columnDefinition = "text[]")
+    private String[] roles;
 
-    public String getId() {
+    // Generar Getters y Setters
+    public UUID getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(UUID id) {
         this.id = id;
     }
 
-    public String getUsername() {
-        return username;
+    public String getCi() {
+        return ci;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
+    public void setCi(String ci) {
+        this.ci = ci;
     }
 
-    public String getEmail() {
-        return email;
+    public String getFirstName() {
+        return first_name;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setFirstName(String first_name) {
+        this.first_name = first_name;
     }
 
-    public String getPassword() {
-        return password;
+    public String getSecondName() {
+        return second_name;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setSecondName(String second_name) {
+        this.second_name = second_name;
     }
 
-    public String getPhone() {
-        return phone;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getMotherLastname() {
+        return mother_lastname;
+    }
+
+    public void setMotherLastname(String mother_lastname) {
+        this.mother_lastname = mother_lastname;
+    }
+
+    public Date getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(Date birthdate) {
+        this.birthdate = birthdate;
+    }
+
+    public String getCellphone() {
+        return cellphone;
+    }
+
+    public void setCellphone(String cellphone) {
+        this.cellphone = cellphone;
+    }
+
+    public Boolean getIsActive() {
+        return is_active;
+    }
+
+    public void setIsActive(Boolean is_active) {
+        this.is_active = is_active;
+    }
+
+    public String[] getRoles() {
+        return roles;
+    }
+
+    public void setRoles(String[] roles) {
+        this.roles = roles;
     }
 }
